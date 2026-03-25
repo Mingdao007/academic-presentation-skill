@@ -1,0 +1,4 @@
+interface:
+  display_name: "Academic Presentation"
+  short_description: "Build academic Beamer and review decks from papers, posters, and review materials"
+  default_prompt: "Use $academic-presentation to turn papers, posters, or review materials into an academic presentation with the right preset, output format, and visual QA flow."

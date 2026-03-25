@@ -12,20 +12,20 @@ This skill is the presentation-authoring owner for:
 - literature-review and taxonomy decks
 
 Keep upstream review synthesis separate:
-- use `literature-review-workflow` to define scope, build the corpus, classify papers, and produce matrices or outline content
+- use an upstream review workflow to define scope, build the corpus, classify papers, and produce matrices or outline content
 - use this skill to turn that prepared content into the final deck
 
-Route ordinary `.pptx` work elsewhere:
-- use `slides` for primary `.pptx` authoring and deck editing
-- use `pptx` for low-level `.pptx` inspection, XML unpacking, or template-preserving edits
+Route ordinary `.pptx` work through the host environment:
+- use the host's primary editable `.pptx` workflow for ordinary deck authoring and deck editing
+- use a low-level `.pptx` workflow only for XML inspection or template-preserving edits
 
 ## Deterministic routing
 
 Resolve the deck path in this order:
 
 1. If the user explicitly names a format or preset, follow it.
-2. If the user explicitly asks for editable `.pptx` output, route to `slides`.
-3. If the task is primarily low-level `.pptx` template work, route to `pptx`.
+2. If the user explicitly asks for editable `.pptx` output, route to the host's primary editable `.pptx` workflow.
+3. If the task is primarily low-level `.pptx` template work, route to a low-level `.pptx` workflow.
 4. Otherwise, choose between the two Beamer presets below.
 
 ### Preset selection
@@ -90,8 +90,8 @@ For `literature review preset`:
 | Tool | Use when |
 |------|----------|
 | **Beamer** | Paper-first or PDF-first deck, math-heavy content, review deck, or when PDF is the main deliverable |
-| **slides** | Editable `.pptx` is explicitly required |
-| **pptx** | Existing template must be preserved through low-level `.pptx` operations |
+| **Editable `.pptx` workflow** | Editable `.pptx` is explicitly required |
+| **Low-level `.pptx` workflow** | Existing template must be preserved through low-level `.pptx` operations |
 
 ### 5. Draft the deck
 
@@ -104,7 +104,7 @@ If the deck is Beamer-based:
 
 If the deck is `.pptx`-based:
 - keep the authoring source and rendered `.pptx` together
-- delegate the implementation details to `slides`
+- use the host's primary editable `.pptx` workflow instead of forcing a PDF-first Beamer path
 
 ### 6. Generate custom figures when tables should become visuals
 
@@ -263,15 +263,16 @@ Every presentation must pass visual inspection before delivery.
 
 1. Compile and fix actual errors first.
 2. For Beamer, render the PDF pages as images and inspect those images, not just the `.tex`.
-3. Look for:
+3. Use rendered-deck visual QA as the default final gate before reporting the deck as ready.
+4. Look for:
    - leaked LaTeX commands rendered as text
    - duplicate page numbers
    - figures not rendering or rendering at the wrong scale
    - tables with broken alignment
    - text or figures clipped at slide edges
    - repeated main visuals across adjacent slides when the narrative role is redundant
-4. If the user-visible deliverable is report-class, run `python3 $CODEX_HOME/skills/ai-detect/scripts/scan_ai_smell.py <source>` on the edited authoring source before reporting completion.
-5. Only after the PDF or deck passes visual QA should you present it as ready.
+5. If the user-visible deliverable is report-class, run a source-text quality scan on the edited authoring source before reporting completion.
+6. Only after the PDF or deck passes the rendered-deck visual QA gate should you present it as ready.
 
 ## Consistency checklist (run before declaring ready)
 
