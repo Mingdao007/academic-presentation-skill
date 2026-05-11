@@ -1,37 +1,69 @@
 # Academic Presentation Skill
 
-面向学术演示文稿的可移植 skill，用于把论文、海报和综述材料整理成最终展示稿，同时支持 Codex App 和 Claude CLI。
+可移植的学术汇报 skill，用于把论文、poster 和 review 材料整理成最终可讲的 academic deck，并支持 Codex App 与 Claude CLI 使用。
 
-## 提供内容
+## 适合谁
 
-- 可安装 skill: [`academic-presentation`](./academic-presentation)
-- Codex App 元数据: [`academic-presentation/agents/openai.yaml`](./academic-presentation/agents/openai.yaml)
-- 公开 references: [`academic-presentation/references/`](./academic-presentation/references)
-- Claude CLI excerpt: [`claude-code-cli/CLAUDE.academic-presentation.md`](./claude-code-cli/CLAUDE.academic-presentation.md)
+| 适合使用 | 不适合使用 |
+| --- | --- |
+| 把论文、poster 或已经整理好的 review 内容变成汇报 deck | 只需要底层 PowerPoint XML 修复 |
+| 需要 seminar、conference、defense 或 review deck 的稳定预设 | 还没有 review 内容，需要从零做文献综述 |
+| 希望同一个公开包同时支持 Codex App 和 Claude CLI | 只是解释某一页 slide 或一段文字 |
+
+## 为什么需要它
+
+- 把上游 review synthesis 和最终 deck authoring 分开。
+- 把可复用的 presentation preset 放在 skill package 里。
+- 让生成 deck 的 visual QA 预期更明确。
+
+## 包含内容
+
+| Component | 作用 |
+| --- | --- |
+| [`academic-presentation`](./academic-presentation) | 可安装的 Codex App skill package |
+| [`academic-presentation/agents/openai.yaml`](./academic-presentation/agents/openai.yaml) | Codex App 界面 metadata |
+| [`academic-presentation/references`](./academic-presentation/references) | 随包发布的公开 reference material |
+| [`academic-presentation/test-prompts.json`](./academic-presentation/test-prompts.json) | trigger / non-trigger 示例 |
+| [`claude-code-cli/CLAUDE.academic-presentation.md`](./claude-code-cli/CLAUDE.academic-presentation.md) | 可复制的 Claude CLI excerpt |
+| [`CHANGELOG.md`](./CHANGELOG.md) | release history |
+| [`LICENSE`](./LICENSE) | license |
 
 ## 安装 / 使用
 
 ### Codex App
 
-- 从本仓库路径 `academic-presentation` 安装
-- GitHub 安装目标：
-  - repo：`<owner>/academic-presentation-skill`
-  - path：`academic-presentation`
-- 安装后重启 `Codex App`，让新 skill 被发现。
+- 从本 repo 的这个路径安装 skill：`academic-presentation`
+- GitHub install target:
+  - repo: `Mingdao007/academic-presentation-skill`
+  - path: `academic-presentation`
+- 安装后重启 `Codex App`，让新 skill 被重新发现。
 
-### Claude CLI
+## 工作流
 
-- 打开 [`claude-code-cli/CLAUDE.academic-presentation.md`](./claude-code-cli/CLAUDE.academic-presentation.md)
-- 把整段 excerpt 复制到你的项目 `CLAUDE.md`
-- 最好把它保留成一个独立章节，方便后续替换和比对
-- 如果你的环境只在会话开始时读取 `CLAUDE.md`，更新后重启 Claude CLI 会话
+```mermaid
+flowchart LR
+    A["源材料"] --> B["汇报触发"]
+    B --> C["预设选择"]
+    C --> D["Deck authoring"]
+    D --> E["Rendered QA"]
+```
 
 ## 覆盖范围
 
-- 支持 conference、seminar、defense、review deck 等场景路由
-- 在 oral-talk 和 literature-review 两类 preset 之间做确定性选择
-- 提供 paper-first 的学术演示工作流和公开参考材料
-- 包含 rendered-deck visual QA 和 report-class source-text scan 指引
+- conference、seminar、defense 和 review deck 路由
+- oral talk 与 literature-review deck 的确定性 preset 选择
+- paper-first presentation workflow 和公开 references
+- rendered deck visual QA 与 report-class source-text scan guidance
+
+## 预期结果 / 验证
+
+| 检查项 | 预期结果 |
+| --- | --- |
+| 安装路径 | `academic-presentation` |
+| GitHub target | `Mingdao007/academic-presentation-skill`，path 为 `academic-presentation` |
+| Skill 入口 | 存在 `academic-presentation/SKILL.md` |
+| 触发样例 | `academic-presentation/test-prompts.json` |
+| 隐私检查 | 公开包不包含私人本机路径或 live user state |
 
 ## 触发示例
 
@@ -39,7 +71,7 @@
 - `Turn this poster into a short talk deck.`
 - `Prepare a seminar presentation from this paper.`
 
-## 不触发示例
+## 不应触发
 
 - `Edit one existing .pptx template at the XML level.`
 - `Do a full literature review from scratch.`
@@ -47,19 +79,22 @@
 
 ## 隐私边界
 
-这个公开仓库只保留可复用、可公开的工作流部分。
+这个公开仓库只保留通用、可复用的 workflow。
 
-- 示例保持通用，不包含私有项目、课程或导师上下文。
-- 这个公开包不包含本地绝对路径、私有工作区引用或依赖你个人环境的私有 skill 链接。
+- 示例保持通用，不包含私人项目、课程或导师上下文。
+- 公开包不发布本机绝对路径、私人 workspace reference 或主机特定 private skill link。
 
 ## 仓库结构
 
-- `academic-presentation/`: installable `Codex App` skill
-- `academic-presentation/agents/openai.yaml`: `Codex App` interface metadata
-- `academic-presentation/references/`: bundled public references
-- `claude-code-cli/CLAUDE.academic-presentation.md`: 可直接复制的 `Claude CLI` excerpt
-- `CHANGELOG.md`: release history
-- `LICENSE`: `MIT`
+| 路径 | 作用 |
+| --- | --- |
+| [`academic-presentation`](./academic-presentation) | 可安装的 Codex App skill package |
+| [`academic-presentation/agents/openai.yaml`](./academic-presentation/agents/openai.yaml) | Codex App 界面 metadata |
+| [`academic-presentation/references`](./academic-presentation/references) | 随包发布的公开 reference material |
+| [`academic-presentation/test-prompts.json`](./academic-presentation/test-prompts.json) | trigger / non-trigger 示例 |
+| [`claude-code-cli/CLAUDE.academic-presentation.md`](./claude-code-cli/CLAUDE.academic-presentation.md) | 可复制的 Claude CLI excerpt |
+| [`CHANGELOG.md`](./CHANGELOG.md) | release history |
+| [`LICENSE`](./LICENSE) | license |
 
 English:
 
