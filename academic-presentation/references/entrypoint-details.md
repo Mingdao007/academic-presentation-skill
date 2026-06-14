@@ -285,7 +285,7 @@ Load `references/beamer-presets.md` when you need:
 
 Every presentation must pass visual inspection before delivery.
 
-Use [$visual-deliverable-check](/Users/andyl/.codex/skills/visual-deliverable-check/SKILL.md) as the default final visual gate for the rendered deck.
+Use `$visual-deliverable-check` as the default final visual gate for the rendered deck.
 
 1. Compile and fix actual errors first.
 2. For Beamer, render the PDF pages as images and inspect those images, not just the `.tex`.
